@@ -23,6 +23,19 @@ def isLayoutAlgorithmExistsForVersion(String algorithm, String version) {
     if (version.equals("elk-layout-version") || version.equals("snapshot")) {
         return false
     } else {
+        def majorVersion = 0
+        def minorVersion = 0
+        def patchVersion = 0
+        // Get major, minor and patch version from version string
+        version.tokenize(".") with { major, minor, patch ->
+            majorVersion = Integer.parseInt(major)
+            minorVersion = Integer.parseInt(minor)
+            patchVersion = Integer.parseInt(patch)
+        }
+        // Check that veriflex is supported
+        if (algorithm.equals("org.eclipse.elk.alg.vertiflex") && minorVersion < 11) {
+            return false
+        }
         return true
     }
 }
